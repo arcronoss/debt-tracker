@@ -63,6 +63,18 @@ export default function DebtTracker() {
     }
   }, []);
 
+  useEffect(() => {
+    if (showForm) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showForm]);
+
   const persist = (next) => {
     setRecords(next);
     try {
@@ -407,7 +419,18 @@ export default function DebtTracker() {
 
       {/* Form Modal */}
       {showForm && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+        <div
+          className="
+            fixed
+            inset-0
+            z-50
+            flex
+            items-end
+            sm:items-center
+            justify-center
+            overflow-hidden
+          "
+         >
           <div
             className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"
             onClick={closeForm}
