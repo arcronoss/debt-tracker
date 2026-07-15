@@ -66,12 +66,15 @@ export default function DebtTracker() {
   useEffect(() => {
     if (showForm) {
       document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     }
 
     return () => {
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     };
   }, [showForm]);
 
@@ -478,7 +481,7 @@ export default function DebtTracker() {
                   value={nameInput}
                   onChange={(e) => setNameInput(e.target.value)}
                   placeholder="เช่น สมชาย ใจดี"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base outline-none ..."
                 />
               </div>
               <div>
@@ -491,7 +494,7 @@ export default function DebtTracker() {
                   value={amountInput}
                   onChange={(e) => setAmountInput(e.target.value)}
                   placeholder="0.00"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition tabular-nums"
+                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base outline-none ..."
                 />
               </div>
               <div>
@@ -502,7 +505,7 @@ export default function DebtTracker() {
                   value={noteInput}
                   onChange={(e) => setNoteInput(e.target.value)}
                   placeholder="เช่น ยืมค่าอาหาร"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base outline-none ..."
                 />
               </div>
             </div>
