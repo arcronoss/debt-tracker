@@ -174,7 +174,7 @@ export default function DebtTracker() {
       <div className="max-w-md mx-auto pb-28">
         {/* Header */}
         <header
-          className="sticky top-0 z-20 pt-12 pb-4 px-5"
+          className="sticky top-0 z-20 pt-14 pb-4 px-5"
           style={{
             background: "linear-gradient(180deg,#1E4FA8 0%,#2C63C7 100%)",
           }}
@@ -412,23 +412,23 @@ export default function DebtTracker() {
             className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"
             onClick={closeForm}
           />
-          <div
-            className="
-              relative
-              w-full
-              max-w-sm
-              mx-auto
-              box-border
-              bg-white
-              rounded-t-3xl
-              sm:rounded-3xl
-              px-5
-              pt-5
-              pb-6
-              shadow-2xl
-              animate-[slideUp_0.2s_ease-out]
-            "
-          >
+        <div
+          className="
+            relative
+            w-[calc(100%-4rem)]
+            max-w-sm
+            mx-auto
+            box-border
+            bg-white
+            rounded-t-3xl
+            sm:rounded-3xl
+            px-5
+            pt-5
+            pb-6
+            shadow-2xl
+            animate-[slideUp_0.2s_ease-out]
+          "
+>
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-semibold text-slate-800 text-base">
                 {editingId
