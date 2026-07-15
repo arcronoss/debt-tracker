@@ -1,9 +1,22 @@
 import { useState, useEffect, useMemo } from "react";
-import { Plus, Trash2, Pencil, X, Check, TrendingDown, TrendingUp, Wallet, Calendar } from "lucide-react";
+import {
+  Plus,
+  Trash2,
+  Pencil,
+  X,
+  Check,
+  TrendingDown,
+  TrendingUp,
+  Wallet,
+  Calendar,
+} from "lucide-react";
 
 // ---------- Utility ----------
 const formatMoney = (n) =>
-  new Intl.NumberFormat("th-TH", { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(n);
+  new Intl.NumberFormat("th-TH", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(n);
 
 const formatDateTime = (iso) => {
   const d = new Date(iso);
@@ -16,7 +29,8 @@ const formatDateTime = (iso) => {
   });
 };
 
-const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const uid = () =>
+  Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 
 const STORAGE_KEY = "debt-tracker:records";
 
@@ -60,13 +74,20 @@ export default function DebtTracker() {
   };
 
   const filtered = useMemo(
-    () => records.filter((r) => r.type === tab).sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)),
-    [records, tab]
+    () =>
+      records
+        .filter((r) => r.type === tab)
+        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)),
+    [records, tab],
   );
 
   const totals = useMemo(() => {
-    const owe = records.filter((r) => r.type === "owe").reduce((s, r) => s + Number(r.amount), 0);
-    const owed = records.filter((r) => r.type === "owed").reduce((s, r) => s + Number(r.amount), 0);
+    const owe = records
+      .filter((r) => r.type === "owe")
+      .reduce((s, r) => s + Number(r.amount), 0);
+    const owed = records
+      .filter((r) => r.type === "owed")
+      .reduce((s, r) => s + Number(r.amount), 0);
     return { owe, owed, net: owed - owe };
   }, [records]);
 
@@ -110,8 +131,14 @@ export default function DebtTracker() {
     if (editingId) {
       const next = records.map((r) =>
         r.id === editingId
-          ? { ...r, name: trimmedName, amount: amt, note: noteInput.trim(), updatedAt: now }
-          : r
+          ? {
+              ...r,
+              name: trimmedName,
+              amount: amt,
+              note: noteInput.trim(),
+              updatedAt: now,
+            }
+          : r,
       );
       persist(next);
     } else {
@@ -137,41 +164,66 @@ export default function DebtTracker() {
   const isOweTab = tab === "owe";
 
   return (
-    <div className="min-h-screen w-full" style={{ background: "linear-gradient(180deg,#EAF4FF 0%,#DCEBFC 40%,#EAF4FF 100%)" }}>
+    <div
+      className="min-h-screen w-full"
+      style={{
+        background:
+          "linear-gradient(180deg,#EAF4FF 0%,#DCEBFC 40%,#EAF4FF 100%)",
+      }}
+    >
       <div className="max-w-md mx-auto pb-28">
         {/* Header */}
-        <header className="sticky top-0 z-20 pt-6 pb-4 px-5" style={{ background: "linear-gradient(180deg,#1E4FA8 0%,#2C63C7 100%)" }}>
+        <header
+          className="sticky top-0 z-20 pt-12 pb-4 px-5"
+          style={{
+            background: "linear-gradient(180deg,#1E4FA8 0%,#2C63C7 100%)",
+          }}
+        >
           <div className="flex items-center gap-2 mb-1">
             <div className="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center backdrop-blur-sm">
               <Wallet size={18} className="text-white" strokeWidth={2.2} />
             </div>
-            <h1 className="text-white font-semibold text-lg tracking-tight" style={{ fontFamily: "'Sarabun', sans-serif" }}>
+            <h1
+              className="text-white font-semibold text-lg tracking-tight"
+              style={{ fontFamily: "'Sarabun', sans-serif" }}
+            >
               บันทึกหนี้สิน
             </h1>
           </div>
-          <p className="text-blue-100 text-xs pl-10 -mt-0.5">จัดการยอดหนี้ของคุณอย่างเป็นระบบ</p>
+          <p className="text-blue-100 text-xs pt-2 pl-0 -mt-0.5">
+            จัดการยอดหนี้ของคุณอย่างเป็นระบบ
+          </p>
 
           {/* Net summary card */}
           <div className="mt-4 rounded-2xl bg-white/95 shadow-lg shadow-blue-900/20 px-4 py-3.5 flex items-center justify-between">
             <div>
-              <p className="text-[11px] text-slate-400 font-medium tracking-wide uppercase">ยอดสุทธิ</p>
+              <p className="text-[11px] text-slate-400 font-medium tracking-wide uppercase">
+                ยอดสุทธิ
+              </p>
               <p
                 className="text-2xl font-bold tabular-nums"
                 style={{ color: totals.net >= 0 ? "#0F9D58" : "#E0332B" }}
               >
-                {totals.net >= 0 ? "+" : "-"}฿{formatMoney(Math.abs(totals.net))}
+                {totals.net >= 0 ? "+" : "-"}฿
+                {formatMoney(Math.abs(totals.net))}
               </p>
             </div>
             <div className="flex flex-col gap-1 text-right">
               <div className="flex items-center gap-1 justify-end">
                 <span className="text-[11px] text-slate-400">เขาติดเรา</span>
-                <span className="text-sm font-semibold" style={{ color: "#0F9D58" }}>
+                <span
+                  className="text-sm font-semibold"
+                  style={{ color: "#0F9D58" }}
+                >
                   ฿{formatMoney(totals.owed)}
                 </span>
               </div>
               <div className="flex items-center gap-1 justify-end">
                 <span className="text-[11px] text-slate-400">เราติดเขา</span>
-                <span className="text-sm font-semibold" style={{ color: "#E0332B" }}>
+                <span
+                  className="text-sm font-semibold"
+                  style={{ color: "#E0332B" }}
+                >
                   ฿{formatMoney(totals.owe)}
                 </span>
               </div>
@@ -185,20 +237,30 @@ export default function DebtTracker() {
             <button
               onClick={() => setTab("owe")}
               className={`flex items-center justify-center gap-1.5 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                tab === "owe" ? "bg-white shadow text-slate-800" : "text-slate-500"
+                tab === "owe"
+                  ? "bg-white shadow text-slate-800"
+                  : "text-slate-500"
               }`}
             >
-              <TrendingDown size={15} style={{ color: tab === "owe" ? "#E0332B" : "#94A3B8" }} />
-              เราติดหนี้เขา
+              <TrendingDown
+                size={15}
+                style={{ color: tab === "owe" ? "#E0332B" : "#94A3B8" }}
+              />
+              เจ้าหนี้
             </button>
             <button
               onClick={() => setTab("owed")}
               className={`flex items-center justify-center gap-1.5 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                tab === "owed" ? "bg-white shadow text-slate-800" : "text-slate-500"
+                tab === "owed"
+                  ? "bg-white shadow text-slate-800"
+                  : "text-slate-500"
               }`}
             >
-              <TrendingUp size={15} style={{ color: tab === "owed" ? "#0F9D58" : "#94A3B8" }} />
-              เขาติดหนี้เรา
+              <TrendingUp
+                size={15}
+                style={{ color: tab === "owed" ? "#0F9D58" : "#94A3B8" }}
+              />
+              ลูกหนี้
             </button>
           </div>
         </div>
@@ -220,7 +282,9 @@ export default function DebtTracker() {
         {/* List */}
         <div className="px-5 mt-3 space-y-2.5">
           {!loaded && (
-            <div className="text-center py-16 text-slate-400 text-sm">กำลังโหลดข้อมูล...</div>
+            <div className="text-center py-16 text-slate-400 text-sm">
+              กำลังโหลดข้อมูล...
+            </div>
           )}
 
           {loaded && filtered.length === 0 && (
@@ -236,9 +300,13 @@ export default function DebtTracker() {
                 )}
               </div>
               <p className="text-slate-500 text-sm">
-                {isOweTab ? "ยังไม่มีรายการหนี้ที่เราติดใคร" : "ยังไม่มีใครติดหนี้เรา"}
+                {isOweTab
+                  ? "ยังไม่มีรายการเจ้าหนี้"
+                  : "ยังไม่มีรายการลูกหนี้"}
               </p>
-              <p className="text-slate-400 text-xs mt-1">แตะปุ่ม + ด้านล่างเพื่อเพิ่มรายการ</p>
+              <p className="text-slate-400 text-xs mt-1">
+                แตะปุ่ม + ด้านล่างเพื่อเพิ่มรายการ
+              </p>
             </div>
           )}
 
@@ -249,8 +317,14 @@ export default function DebtTracker() {
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">
-                  <p className="font-semibold text-slate-800 text-[15px] truncate">{r.name}</p>
-                  {r.note && <p className="text-xs text-slate-400 mt-0.5 truncate">{r.note}</p>}
+                  <p className="font-semibold text-slate-800 text-[15px] truncate">
+                    {r.name}
+                  </p>
+                  {r.note && (
+                    <p className="text-xs text-slate-400 mt-0.5 truncate">
+                      {r.note}
+                    </p>
+                  )}
                   <div className="flex items-center gap-1 mt-1.5 text-[11px] text-slate-400">
                     <Calendar size={11} />
                     <span>{formatDateTime(r.updatedAt)}</span>
@@ -266,7 +340,9 @@ export default function DebtTracker() {
 
               {confirmDeleteId === r.id ? (
                 <div className="flex items-center gap-2 mt-3 pt-3 border-t border-slate-100">
-                  <p className="text-xs text-slate-500 flex-1">ลบรายการนี้ใช่ไหม?</p>
+                  <p className="text-xs text-slate-500 flex-1">
+                    ลบรายการนี้ใช่ไหม?
+                  </p>
                   <button
                     onClick={() => setConfirmDeleteId(null)}
                     className="text-xs px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 font-medium"
@@ -336,19 +412,44 @@ export default function DebtTracker() {
             className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"
             onClick={closeForm}
           />
-          <div className="relative w-full sm:max-w-sm bg-white rounded-t-3xl sm:rounded-3xl px-5 pt-5 pb-6 shadow-2xl animate-[slideUp_0.2s_ease-out]">
+          <div
+            className="
+              relative
+              w-full
+              max-w-sm
+              mx-auto
+              box-border
+              bg-white
+              rounded-t-3xl
+              sm:rounded-3xl
+              px-5
+              pt-5
+              pb-6
+              shadow-2xl
+              animate-[slideUp_0.2s_ease-out]
+            "
+          >
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-semibold text-slate-800 text-base">
-                {editingId ? "แก้ไขรายการ" : isOweTab ? "เพิ่มคนที่เราติดหนี้" : "เพิ่มคนที่ติดหนี้เรา"}
+                {editingId
+                  ? "แก้ไขรายการ"
+                  : isOweTab
+                    ? "เพิ่มคนที่เราติดหนี้"
+                    : "เพิ่มคนที่ติดหนี้เรา"}
               </h2>
-              <button onClick={closeForm} className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+              <button
+                onClick={closeForm}
+                className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center"
+              >
                 <X size={16} className="text-slate-500" />
               </button>
             </div>
 
             <div className="space-y-3.5">
               <div>
-                <label className="text-xs font-medium text-slate-500 mb-1 block">ชื่อ</label>
+                <label className="text-xs font-medium text-slate-500 mb-1 block">
+                  ชื่อ
+                </label>
                 <input
                   autoFocus
                   value={nameInput}
@@ -358,7 +459,9 @@ export default function DebtTracker() {
                 />
               </div>
               <div>
-                <label className="text-xs font-medium text-slate-500 mb-1 block">จำนวนเงิน (บาท)</label>
+                <label className="text-xs font-medium text-slate-500 mb-1 block">
+                  จำนวนเงิน (บาท)
+                </label>
                 <input
                   type="number"
                   inputMode="decimal"
@@ -369,7 +472,9 @@ export default function DebtTracker() {
                 />
               </div>
               <div>
-                <label className="text-xs font-medium text-slate-500 mb-1 block">หมายเหตุ (ไม่บังคับ)</label>
+                <label className="text-xs font-medium text-slate-500 mb-1 block">
+                  หมายเหตุ (ไม่บังคับ)
+                </label>
                 <input
                   value={noteInput}
                   onChange={(e) => setNoteInput(e.target.value)}
@@ -379,7 +484,11 @@ export default function DebtTracker() {
               </div>
             </div>
 
-            {saveError && <p className="text-xs mt-2.5" style={{ color: "#E0332B" }}>{saveError}</p>}
+            {saveError && (
+              <p className="text-xs mt-2.5" style={{ color: "#E0332B" }}>
+                {saveError}
+              </p>
+            )}
 
             <button
               onClick={submitForm}
